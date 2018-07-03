@@ -30,7 +30,7 @@ describe('onSelect prop', () => {
     expect(onSelectHandler).toHaveBeenCalledTimes(1);
     // first argument is input value,
     // second argument is placeId, null in this case.
-    expect(onSelectHandler).toBeCalledWith('San Francisco', null);
+    expect(onSelectHandler).toBeCalledWith('San Francisco', null, null);
   });
 
   test('pressing Enter when one of the suggestion items is active', () => {
@@ -44,9 +44,14 @@ describe('onSelect prop', () => {
     input.simulate('keydown', { key: 'ArrowDown' }); // index 0 active
     input.simulate('keydown', { key: 'Enter' });
     expect(onSelectHandler).toHaveBeenCalledTimes(1);
+
+    const mockSuggestion = mockSuggestions[0];
+    mockSuggestion.active = true;
+
     expect(onSelectHandler).toBeCalledWith(
-      mockSuggestions[0].description,
-      mockSuggestions[0].placeId
+      mockSuggestion.description,
+      mockSuggestion.placeId,
+      mockSuggestion
     );
   });
 
@@ -64,9 +69,14 @@ describe('onSelect prop', () => {
     suggestionItem.simulate('mouseenter');
     input.simulate('keydown', { key: 'Enter' });
     expect(onSelectHandler).toHaveBeenCalledTimes(1);
+
+    const mockSuggestion = mockSuggestions[0];
+    mockSuggestion.active = true;
+
     expect(onSelectHandler).toBeCalledWith(
-      mockSuggestions[0].description,
-      mockSuggestions[0].placeId
+      mockSuggestion.description,
+      mockSuggestion.placeId,
+      mockSuggestion
     );
   });
 });
